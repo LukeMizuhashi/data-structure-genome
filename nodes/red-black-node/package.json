@@ -1,0 +1,17 @@
+{
+  "name": "red-black-node",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/constructor.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Luke Mizuhashi",
+  "license": "MIT",
+  "dependencies": {
+    "ordered-binary-node": "file:../ordered-binary-node"
+  }
+}

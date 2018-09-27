@@ -1,0 +1,17 @@
+{
+  "name": "ordered-binary-node",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/constructor.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Luke Mizuhashi",
+  "license": "MIT",
+  "dependencies": {
+    "binary-node": "file:../binary-node"
+  }
+}
