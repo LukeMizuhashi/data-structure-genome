@@ -16,16 +16,12 @@ module.exports = class BinaryTree {
     if (options instanceof this._NodeClass) {
       this._root = options;
 
-      for (let thisNode in this) {
-        this._asArray.push(thisNode);
-      }
-
     } else if (isIterable(options)) {
       this._root = this._nodeFactory();
 
-      for (let value in options) {
+      options.forEach((value) => {
         this.insert(value);
-      } 
+      })
 
     } else {
       this._root = this._nodeFactory(options);
@@ -33,18 +29,13 @@ module.exports = class BinaryTree {
         this._asArray.push(this._root);
       }
     }
-
-    this._allowsDuplicates = this._root.allowsDuplicates;
   }
 
-  _NodeClass() {
+  get _NodeClass() {
     return BinaryNode;
   }
 
   _nodeFactory(options = {}) {
-
-    options.allowsDuplicates = options.hasOwnProperty('allowsDuplicates') ?
-        options.allowsDuplicates : this._allowsDuplicates; 
 
     return new this._NodeClass(options);
   }
@@ -57,10 +48,14 @@ module.exports = class BinaryTree {
     return node.parent === null;
   }
 
+  isEmpty() {
+    return this._isNullTerminator(this._root);
+  }
+
   _getParentFromChild(index) {
     const result = {
       parent: {
-        index: (index - 1) / 2,
+        index: undefined,
         node: undefined,
         isInArray: undefined,
       },
@@ -70,31 +65,43 @@ module.exports = class BinaryTree {
         isInArray: undefined,
       },
       isLeftChild: undefined,
+      childIsRoot: undefined,
     };
 
-    if (Number.isInteger(result.parent.index) {
-      result.isLeftChild = true;
+    if (index === 0) {
+      result.parent.index = null;
+      result.parent.node = null;
+      result.parent.isInArray = null;
+      result.childIsRoot = true;
+
     } else {
-      result.isLeftChild = false;
-      result.parent.index = Math.floor(result.parent.index);
-    }
+      result.parent.index = (index - 1) / 2;
+      result.childIsRoot = false;
 
-    result.parent.isInArray =
-        result.parent.index >= 0 && result.parent.index < this._asArray.length;
+      if (Number.isInteger(result.parent.index)) {
+        result.isLeftChild = true;
+      } else {
+        result.isLeftChild = false;
+        result.parent.index = Math.floor(result.parent.index);
+      }
 
-    if (result.parent.isInArray) {
-      result.parent.node = this._asArray[result.parent.index];
-    } else {
-      result.parent.node = null; 
-    }
+      result.parent.isInArray =
+          result.parent.index >= 0 && result.parent.index < this._asArray.length;
 
-    result.child.isInArray = index >= 0 && index < this._asArray.length;
+      if (result.parent.isInArray) {
+        result.parent.node = this._asArray[result.parent.index];
+      } else {
+        result.parent.node = null; 
+      }
 
-    if (result.child.isInArray) {
-      result.child.node = this._asArray[index];
-    } else {
-      result.child.node = null; 
-      result.isLeftChild = null;
+      result.child.isInArray = index >= 0 && index < this._asArray.length;
+
+      if (result.child.isInArray) {
+        result.child.node = this._asArray[index];
+      } else {
+        result.child.node = null; 
+        result.isLeftChild = null;
+      }
     }
 
     return result;
@@ -137,20 +144,28 @@ module.exports = class BinaryTree {
       } else {
         result[child].node = null; 
       }
+    }
 
     return result;
   }
 
   insert(value) {
     const newNode = this._nodeFactory({ value: value });
+    newNode.left = this._nodeFactory();
+    newNode.right= this._nodeFactory();
 
     this._asArray.push(newNode);
 
     const relationship = this._getParentFromChild(this._asArray.length - 1);
-    if (relationship.isLeftChild) {
-      this._asArray[relationship.parentIndex].left = newNode;
+    if (!relationship.childIsRoot) {
+      if (relationship.isLeftChild) {
+        this._asArray[relationship.parent.index].left = newNode;
+      } else {
+        this._asArray[relationship.parent.index].right = newNode;
+      }
     } else {
-      this._asArray[relationship.parentIndex].right = newNode;
+      this._root.isolate();
+      this._root = newNode;
     }
   }
 
@@ -183,10 +198,11 @@ module.exports = class BinaryTree {
     return this.search(value,areEqual,mode,onMatch);
   }
 
-  search(value,areEqual,mode = 'last',onMatch) {
-    areEqual = areEqual || (lhs,rhs) => { return lhs == rhs; };
-    onMatch = onMatch || node => result.push(node);
-
+  search(
+      value,
+      areEqual = (lhs,rhs) => { return lhs == rhs; },
+      mode = 'last',onMatch = node => result.push(node)
+    ) {
     let index;
     let stopOnFirstOccurance;
     let step;
