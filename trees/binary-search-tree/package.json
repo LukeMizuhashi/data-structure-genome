@@ -1,0 +1,18 @@
+{
+  "name": "binary-search-tree",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/constructor.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Luke Mizuhashi",
+  "license": "MIT",
+  "dependencies": {
+    "binary-tree": "file:../binary-tree",
+    "ordered-binary-node": "file:../../nodes/ordered-binary-node"
+  }
+}
