@@ -8,8 +8,8 @@ module.exports = () => {
       });
       assert(Array.isArray(uut._asArray));
       assert.strictEqual(uut._asArray.length,0);
-      assert(uut._isRoot(uut._root));
-      assert(uut._isNullTerminator(uut._root));
+      assert(uut._root.isRoot());
+      assert(uut._root.isNullTerminator());
     });
   
     it("Constructs from iterable options as expected",() => {
@@ -22,8 +22,8 @@ module.exports = () => {
       });
       assert(Array.isArray(uut._asArray));
       assert.strictEqual(uut._asArray.length,0);
-      assert(uut._isRoot(uut._root));
-      assert(uut._isNullTerminator(uut._root));
+      assert(uut._root.isRoot());
+      assert(uut._root.isNullTerminator());
      
       options = ['apples'];
       assert.doesNotThrow(() => {
@@ -32,10 +32,10 @@ module.exports = () => {
       assert(Array.isArray(uut._asArray));
       assert.strictEqual(uut._asArray.length,1);
       assert.strictEqual(uut._asArray[0].value,options[0]);
-      assert(uut._isRoot(uut._root));
-      assert(!uut._isNullTerminator(uut._root));
-      assert(uut._isNullTerminator(uut._root.left));
-      assert(uut._isNullTerminator(uut._root.right));
+      assert(uut._root.isRoot());
+      assert(!uut._root.isNullTerminator());
+      assert(uut._root.left.isNullTerminator());
+      assert(uut._root.right.isNullTerminator());
      
       options = ['apples','oranges'];
       assert.doesNotThrow(() => {
@@ -46,10 +46,10 @@ module.exports = () => {
       for (let i in options) {
         assert.strictEqual(uut._asArray[i].value,options[i]);
       }
-      assert(uut._isRoot(uut._root));
-      assert(!uut._isNullTerminator(uut._root));
-      assert(!uut._isNullTerminator(uut._root.left));
-      assert(uut._isNullTerminator(uut._root.right));
+      assert(uut._root.isRoot());
+      assert(!uut._root.isNullTerminator());
+      assert(!uut._root.left.isNullTerminator());
+      assert(uut._root.right.isNullTerminator());
      
       options = ['apples','oranges',42];
       assert.doesNotThrow(() => {
@@ -60,14 +60,14 @@ module.exports = () => {
       for (let i in options) {
         assert.strictEqual(uut._asArray[i].value,options[i]);
       }
-      assert(uut._isRoot(uut._root));
-      assert(!uut._isNullTerminator(uut._root));
-      assert(!uut._isNullTerminator(uut._root.left));
-      assert(!uut._isNullTerminator(uut._root.right));
-      assert(uut._isNullTerminator(uut._root.left.left));
-      assert(uut._isNullTerminator(uut._root.left.right));
-      assert(uut._isNullTerminator(uut._root.right.left));
-      assert(uut._isNullTerminator(uut._root.right.right));
+      assert(uut._root.isRoot());
+      assert(!uut._root.isNullTerminator());
+      assert(!uut._root.left.isNullTerminator());
+      assert(!uut._root.right.isNullTerminator());
+      assert(uut._root.left.left.isNullTerminator());
+      assert(uut._root.left.right.isNullTerminator());
+      assert(uut._root.right.left.isNullTerminator());
+      assert(uut._root.right.right.isNullTerminator());
      
       options = ['apples','oranges',42,{}];
       assert.doesNotThrow(() => {
@@ -78,16 +78,16 @@ module.exports = () => {
       for (let i in options) {
         assert.strictEqual(uut._asArray[i].value,options[i]);
       }
-      assert(uut._isRoot(uut._root));
-      assert(!uut._isNullTerminator(uut._root));
-      assert(!uut._isNullTerminator(uut._root.left));
-      assert(!uut._isNullTerminator(uut._root.right));
-      assert(!uut._isNullTerminator(uut._root.left.left));
-      assert(uut._isNullTerminator(uut._root.left.left.left));
-      assert(uut._isNullTerminator(uut._root.left.left.right));
-      assert(uut._isNullTerminator(uut._root.left.right));
-      assert(uut._isNullTerminator(uut._root.right.left));
-      assert(uut._isNullTerminator(uut._root.right.right));
+      assert(uut._root.isRoot());
+      assert(!uut._root.isNullTerminator());
+      assert(!uut._root.left.isNullTerminator());
+      assert(!uut._root.right.isNullTerminator());
+      assert(!uut._root.left.left.isNullTerminator());
+      assert(uut._root.left.left.left.isNullTerminator());
+      assert(uut._root.left.left.right.isNullTerminator());
+      assert(uut._root.left.right.isNullTerminator());
+      assert(uut._root.right.left.isNullTerminator());
+      assert(uut._root.right.right.isNullTerminator());
     });
   
   });

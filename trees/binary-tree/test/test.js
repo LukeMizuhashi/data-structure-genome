@@ -2,11 +2,12 @@ global.BinaryTree = require('../src/constructor.js');
 global.assert = require('chai').assert;
 
 const describeConstructor = require('./constructor/description.js');
+const describeNodeClass = require('./NodeClass/description.js');
 
 describe('BinaryTree',() => {
 
   describeConstructor();
-  // describe('BinaryTree._NodeClass',describe_NodeClass);
+  describeNodeClass();
   // describe('BinaryTree._nodeFactory',describe_nodeFactory);
   // describe('BinaryTree._isNullTerminator',describe_isNullTerminator);
   // describe('BinaryTree._isRoot',describe_isRoot);

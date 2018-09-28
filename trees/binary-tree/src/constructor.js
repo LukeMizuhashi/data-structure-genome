@@ -1,15 +1,8 @@
 const BinaryNode = require('binary-node');
+const isIterable = require('iterable-bitter-able');
 
 module.exports = class BinaryTree {
-  constructor(options) {
-
-    const isIterable = (obj) => {
-      // checks for null and undefined
-      if (obj == null) {
-        return false;
-      }
-      return typeof obj[Symbol.iterator] === 'function';
-    }
+  constructor(options = {}) {
 
     this._asArray = [];
 
@@ -25,6 +18,7 @@ module.exports = class BinaryTree {
       if (!this._root.isNullTerminator()) {
         this._asArray.push(this._root);
       }
+
     }
   }
 
@@ -33,7 +27,6 @@ module.exports = class BinaryTree {
   }
 
   _nodeFactory(options = {}) {
-
     return new this._NodeClass(options);
   }
 
