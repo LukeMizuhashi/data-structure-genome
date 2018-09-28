@@ -1,8 +1,8 @@
-module.exports = class BinaryNode {
-  constructor(options) {
-    options = options || {};
+const Node = require('node');
 
-    this.value = options.value; // Defaults to undefined
+module.exports = class BinaryNode extends Node {
+  constructor(options = {}) {
+    super(options);
 
     this.parent = null; // Always default this.parent to null. Let the caller
                         // set this.parent indirectly by passing this BinaryNode
@@ -43,6 +43,16 @@ module.exports = class BinaryNode {
     return this._right;
   }
 
+  isNullTerminator() {
+    return this.left === null
+        && this.right === null
+        && this.value === undefined;
+  }
+
+  isRoot() {
+    return this.parent === null;
+  }
+
   isLeftChild() {
     let result = false
     if (this.parent) {
@@ -67,60 +77,6 @@ module.exports = class BinaryNode {
       sibling = this.parent.left;
     }
     return sibling;
-  }
-
-  rotateLeft() {
-    if (!this.isRightChild()) {
-      throw new Error(
-        'Can not rotate left: node is not the right child of its parent.'
-      );
-    }
-
-    let oldParent = this.parent;
-    let grandParent = oldParent.parent;
-    let wasLeftGrandChild = oldParent.isLeftChild();
-    let movingNode = this.left;
-
-    this.left = oldParent;
-    oldParent.right = movingNode;
-
-    if (grandParent) {
-      this.parent = grandParent;
-      if (wasLeftGrandChild) {
-        grandParent._left = this;
-      } else {
-        grandParent._right = this;
-      }
-    } else {
-      this.parent = null;
-    }
-  }
-
-  rotateRight() {
-    if (!this.isLeftChild()) {
-      throw new Error(
-        'Can not rotate right: node is not a left child of its parent.'
-      );
-    }
-
-    let oldParent = this.parent;
-    let grandParent = oldParent.parent;
-    let wasLeftGrandChild = oldParent.isLeftChild();
-    let movingNode = this.right;
-
-    this.right = oldParent;
-    oldParent.left = movingNode;
-
-    if (grandParent) {
-      this.parent = grandParent;
-      if (wasLeftGrandChild) {
-        grandParent._left = this;
-      } else {
-        grandParent._right = this;
-      }
-    } else {
-      this.parent = null;
-    }
   }
 
   isolate() {

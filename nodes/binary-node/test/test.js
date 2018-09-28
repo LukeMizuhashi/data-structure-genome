@@ -4,23 +4,24 @@ global.assert = require('chai').assert;
 const describeConstructor = require('./constructor/description.js');
 const describeLeft = require('./left/description.js');
 const describeRight = require('./right/description.js');
+const describeIsNullTerminator = require('./isNullTerminator/description.js');
+const describeIsRoot = require('./isRoot/description.js');
 const describeIsLeftChild = require('./isLeftChild/description.js');
 const describeIsRightChild = require('./isRightChild/description.js');
 const describeGetSibling = require('./getSibling/description.js');
-const describeRotateLeft = require('./rotateLeft/description.js');
-const describeRotateRight = require('./rotateRight/description.js');
 const describeIsolate = require('./isolate/description.js');
 
 describe('BinaryNode',() => {
 
   describeConstructor();
-  describe('BinaryNode.left',describeLeft);
-  describe('BinaryNode.right',describeRight);
-  describe('BinaryNode.isLeftChild',describeIsLeftChild);
-  describe('BinaryNode.isRightChild',describeIsRightChild);
-  describe('BinaryNode.getSibling',describeGetSibling);
-  describe('BinaryNode.rotateLeft',describeRotateLeft);
-  describe('BinaryNode.rotateRight',describeRotateRight);
-  describe('BinaryNode.isolate',describeIsolate);
+  describeLeft();
+  describeRight();
+  describeIsNullTerminator();
+  describeIsRoot();
+  describeIsLeftChild();
+  describeIsRightChild();
+  describeGetSibling();
+  describeIsolate();
+
 });
 

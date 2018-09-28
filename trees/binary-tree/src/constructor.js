@@ -22,7 +22,7 @@ module.exports = class BinaryTree {
 
     } else {
       this._root = this._nodeFactory(options);
-      if (!this._isNullTerminator(this._root)) {
+      if (!this._root.isNullTerminator()) {
         this._asArray.push(this._root);
       }
     }
@@ -37,16 +37,8 @@ module.exports = class BinaryTree {
     return new this._NodeClass(options);
   }
 
-  _isNullTerminator(node) {
-    return node.left === null && node.right === null && node.value === undefined;
-  }
-
-  _isRoot(node) {
-    return node.parent === null;
-  }
-
   isEmpty() {
-    return this._isNullTerminator(this._root);
+    return this._root.isNullTerminator();
   }
 
   _getParentFromChild(index) {
@@ -283,14 +275,14 @@ module.exports = class BinaryTree {
       }
 
       if (disallowNullTerminators) {
-        if (this._isNullTerminator(thisNode)) {
+        if (thisNode.isNullTerminator()) {
           result = false;
           message = 'Encountered null terminator in tree';
           break;
         }
       }
 
-      if (i === 0 && !this._isRoot(thisNode)) {
+      if (i === 0 && !thisNode.isRoot()) {
         result = false;
         message = 'First node is not root';
         break;

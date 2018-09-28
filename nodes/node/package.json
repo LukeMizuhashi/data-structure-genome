@@ -1,5 +1,5 @@
 {
-  "name": "binary-node",
+  "name": "node",
   "version": "0.0.0",
   "description": "",
   "main": "src/constructor.js",
@@ -10,8 +10,5 @@
     "test": "mocha"
   },
   "author": "Luke Mizuhashi",
-  "license": "MIT",
-  "dependencies": {
-    "node": "file:../node"
-  }
+  "license": "MIT"
 }
