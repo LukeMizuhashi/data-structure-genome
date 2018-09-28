@@ -1,8 +1,7 @@
 const BinaryNode = require('binary-node');
 
 module.exports = class OrderedBinaryNode extends BinaryNode {
-  constructor(options) {
-    options = options || {};
+  constructor(options = {}) {
     super(options);
 
     if (options.comparator) {
