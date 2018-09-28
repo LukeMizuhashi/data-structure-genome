@@ -1,9 +1,7 @@
-const BinaryNode = require('binary-node');
+const OrderedBinaryNode = require('ordered-binary-node');
 
-module.exports = class RedBlackNode extends BinaryNode {
-  constructor(options) {
-    options = options || {};
-
+module.exports = class RedBlackNode extends OrderedBinaryNode {
+  constructor(options = {}) {
     super(options)
 
     this.isRed = options.hasOwnProperty('isRed') ? options.isRed : false;
