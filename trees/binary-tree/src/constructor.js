@@ -13,10 +13,7 @@ module.exports = class BinaryTree {
 
     this._asArray = [];
 
-    if (options instanceof this._NodeClass) {
-      this._root = options;
-
-    } else if (isIterable(options)) {
+    if (isIterable(options)) {
       this._root = this._nodeFactory();
 
       options.forEach((value) => {
