@@ -12,7 +12,7 @@
   "author": "Luke Mizuhashi",
   "license": "MIT",
   "dependencies": {
-    "binary-node": "file:../../nodes/binary-node",
-    "iterable-bitter-able": "0.0.0"
+    "iterable-bitter-able": "0.0.0",
+    "node": "file:../../nodes/node"
   }
 }
