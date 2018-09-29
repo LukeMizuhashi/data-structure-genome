@@ -44,9 +44,9 @@ module.exports = class BinaryNode extends Node {
   }
 
   isNullTerminator() {
-    return this.left === null
+    return super.isNullTerminator()
+        && this.left === null
         && this.right === null
-        && this.value === undefined;
   }
 
   isRoot() {

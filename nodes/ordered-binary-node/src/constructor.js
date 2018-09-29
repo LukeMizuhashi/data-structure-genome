@@ -8,6 +8,18 @@ module.exports = class OrderedBinaryNode extends BinaryNode {
       this.compare = options.comparator;
       this.compare.bind(this);
     }
+
+    if (options.hasOwnProperty('value') && !options.hasOwnProperty('key')) {
+      throw new Error(
+        'options.key must be null or defined if options.value is defined'
+      );
+    }
+    if (options.hasOwnProperty('key') && options.key === undefined) {
+      throw new Error(
+        'options.key = undefined is reserved. Consider using options.key '
+      + '= null instead'
+      );
+    }
     this._key = options.key; // Defaults to undefined
   }
 
@@ -19,16 +31,21 @@ module.exports = class OrderedBinaryNode extends BinaryNode {
     throw new Error('OrderedBinaryNode.key can only be set upon instantiation.');
   }
 
-  compare(otherNode) {
-    if (this.key < otherNode.key) {
-      return -1;
-    } else if (otherNode.key == this.key) {
-      return 0;
-    } else if (this.key > otherNode.key) {
+  isNullTerminator() {
+    return super.isNullTerminator() 
+        && this.key === undefined 
+  }
+
+  compare(key) {
+    if (this.key < key) {
       return 1;
+    } else if (this.key == key) {
+      return 0;
+    } else if (this.key > key) {
+      return -1;
     } else {
       throw new Error(
-        `${this.key} is neither less than, greater than, nor equal to ${otherNode.key}`
+        `${this.key} is neither less than, greater than, nor equal to ${key}`
       );
     }
   }

@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "binary-tree": "file:../binary-tree",
+    "iterable-bitter-able": "0.0.0",
     "ordered-binary-node": "file:../../nodes/ordered-binary-node"
   }
 }
