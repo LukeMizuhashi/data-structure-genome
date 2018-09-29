@@ -82,22 +82,25 @@ module.exports = class BinarySearchTree extends BinaryTree {
     }
   }
 
-  remove(key) {
+  remove(key,strict = true) {
     const thisNode = this.search(key);
+
     if (thisNode.isNullTerminator()) {
-      throw new Error(`${key} not found in tree`);
+      if (strict) {
+        throw new Error(`${key} not found in tree`);
+      }
     }
 
     let replacementNode;
-    if (thisNode.left) {
+    if (thisNode.left && !thisNode.left.isNullTerminator()) {
       replacementNode = new BinarySearchTree(thisNode.left).maxNode;
-    } else if (thisNode.right) {
+    } else if (thisNode.right && !thisNode.right.isNullTerminator()) {
       replacementNode = new BinarySearchTree(thisNode.right).minNode;
     } else {
       replacementNode = this._nodeFactory();
     }
+
     thisNode.replaceWith(replacementNode);
-    replacementNode.destroy();
   }
 
   search(key) {

@@ -23,6 +23,10 @@ module.exports = class OrderedBinaryNode extends BinaryNode {
     this._key = options.key; // Defaults to undefined
   }
 
+  get _NodeClass() {
+    return OrderedBinaryNode;
+  }
+
   get key() {
     return this._key;
   }

@@ -3,25 +3,17 @@ global.OrderedBinaryNode = require('ordered-binary-node');
 global.assert = require('chai').assert;
 
 const describeConstructor = require('./constructor/description.js');
-// const describeInsert = require('./insert/description.js');
-// const describeMaxNode = require('./maxNode/description.js');
-// const describeMinNode = require('./minNode/description.js');
-// const describeMaxValue = require('./maxValue/description.js');
-// const describeMinValue = require('./minValue/description.js');
-// const describeRemove = require('./remove/description.js');
-// const describeIterator = require('./iterator/description.js');
-// const describeIsValid = require('./isValid/description.js');
+const describeNodeClass = require('./NodeClass/description.js');
+const describeIsEmpty = require('./isEmpty/description.js');
+const describeInsert = require('./insert/description.js');
+const describeRemove = require('./remove/description.js');
 
 describe('BinarySearchTree',() => {
 
   describeConstructor();
-  // describe('BinarySearchTree.insert',describeInsert);
-  // describe('BinarySearchTree.maxNode',describeMaxNode);
-  // describe('BinarySearchTree.minNode',describeMinNode);
-  // describe('BinarySearchTree.maxValue',describeMaxNode);
-  // describe('BinarySearchTree.minValue',describeMinValue);
-  // describe('BinarySearchTree.remove',describeRemove);
-  // describe('BinarySearchTree.iterator',describeIterator);
-  // describe('BinarySearchTree.isValid',describeIsValid);
+  describeNodeClass();
+  describeIsEmpty();
+  describeInsert();
+  describeRemove();
 });
 

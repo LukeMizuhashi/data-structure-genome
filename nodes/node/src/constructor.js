@@ -10,6 +10,14 @@ module.exports = class Node {
     this.value = options.value; // Defaults to undefined
   }
 
+  get _NodeClass() {
+    return Node;
+  }
+
+  _nodeFactory(options = {}) {
+    return new this._NodeClass(options);
+  }
+
   isNullTerminator() {
     return this.value === undefined;
   }
