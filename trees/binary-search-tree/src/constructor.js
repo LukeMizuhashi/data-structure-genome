@@ -6,7 +6,10 @@ module.exports = class BinarySearchTree extends BinaryTree {
   constructor(options = {}) {
     super();
 
-    if (options instanceof this._NodeClass) {
+    if (options instanceof BinarySearchTree) {
+      this._root = options._root;
+
+    } else if (options instanceof this._NodeClass) {
       this._root = options;
 
     } else if (isIterable(options)) {
