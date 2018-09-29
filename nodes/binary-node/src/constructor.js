@@ -83,57 +83,5 @@ module.exports = class BinaryNode extends Node {
     return sibling;
   }
 
-  isolate() {
-    if (this.left) {
-      this.left.parent = null;
-      this.left = this._nodeFactory();
-    }
-
-    if (this.right) {
-      this.right.parent = null; 
-      this.right = this._nodeFactory();
-    }
-
-    if (this.parent) {
-
-      const leafNode = this._nodeFactory();
-
-      if (this.isLeftChild()) {
-        this.parent.left = leafNode;
-      } else {
-        this.parent.right = leafNode;
-      }
-    }
-  }
-
-  replaceWith(replacementNode) {
-    let left = this.left;
-    let right = this.right;
-
-    debugger;
-    replacementNode.isolate();
-
-    if (this.isLeftChild()) {
-      this.parent.left = replacementNode;
-    } else if (this.isRightChild()) {
-      this.parent.right = replacementNode;
-    } else {
-      throw new Error('Encountered node that is neither a child nor root.');
-    }
-    this.isolate();
-
-    if (replacementNode === left) {
-      replacementNode.left = this._nodeFactory();;
-    } else {
-      replacementNode.left = left;
-    }
-
-    if (replacementNode === right) {
-      replacementNode.left = this._nodeFactory();;
-    } else {
-    replacementNode.right = right;
-    }
-  }
-
 };
 

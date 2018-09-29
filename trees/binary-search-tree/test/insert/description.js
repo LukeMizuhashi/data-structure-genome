@@ -10,11 +10,12 @@ module.exports = () => {
       n.forEach((n) => {
         uut = new BinarySearchTree();
         expected = [];
-        Array.from(
+        const testData = Array.from(
           { length: n },
-          () => crypto.randomBytes(256).toString('hex')
-        )
-          .forEach(
+          () => parseInt(crypto.randomBytes(3).toString('hex'),16)
+        );
+
+        testData.forEach(
             (number) => {
               uut.insert(number,number);
               expected.push(number);
@@ -22,7 +23,7 @@ module.exports = () => {
           )
         ;
 
-        expected = expected.sort();
+        expected = expected.sort((a,b) => a - b);
 
         let i = 0;
         for (let node of uut) {

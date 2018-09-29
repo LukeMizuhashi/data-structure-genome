@@ -9,7 +9,6 @@ const describeIsRoot = require('./isRoot/description.js');
 const describeIsLeftChild = require('./isLeftChild/description.js');
 const describeIsRightChild = require('./isRightChild/description.js');
 const describeGetSibling = require('./getSibling/description.js');
-const describeIsolate = require('./isolate/description.js');
 
 describe('BinaryNode',() => {
 
@@ -21,7 +20,6 @@ describe('BinaryNode',() => {
   describeIsLeftChild();
   describeIsRightChild();
   describeGetSibling();
-  describeIsolate();
 
 });
 

@@ -94,13 +94,50 @@ module.exports = class BinarySearchTree extends BinaryTree {
     let replacementNode;
     if (thisNode.left && !thisNode.left.isNullTerminator()) {
       replacementNode = new BinarySearchTree(thisNode.left).maxNode;
+
     } else if (thisNode.right && !thisNode.right.isNullTerminator()) {
       replacementNode = new BinarySearchTree(thisNode.right).minNode;
+
     } else {
-      replacementNode = this._nodeFactory();
+      if (thisNode.isLeftChild()) {
+        thisNode.parent.left = this._nodeFactory();
+
+      } else if (thisNode.isRightChild()) {
+        thisNode.parent.right = this._nodeFactory();
+
+      } else if (thisNode.isRoot()) {
+        this._root = this._nodeFactory();
+
+      } else {
+        throw new Error('Encountered node that is neither a child nor root');
+      }
+
+      return;
     }
 
-    thisNode.replaceWith(replacementNode);
+    if (thisNode.isLeftChild()) {
+      thisNode.parent.left = replacementNode;
+
+    } else if (thisNode.isRightChild()) {
+      thisNode.parent.right = replacementNode;
+
+    } else if (!thisNode.isRoot()) {
+      throw new Error('Encountered node that is neither a child nor root');
+    }
+
+    if (thisNode.left) {
+      if (thisNode.left !== replacementNode) {
+        replacementNode.left = thisNode.left;
+      }
+      thisNode.left = null;
+    }
+
+    if (thisNode.right) {
+      if (thisNode.right !== replacementNode) {
+        replacementNode.right = thisNode.right;
+      }
+      thisNode.right = null;
+    }
   }
 
   search(key) {
@@ -164,17 +201,6 @@ module.exports = class BinarySearchTree extends BinaryTree {
   set _asArray(value) {
   };
 
-  // isValid() {
-  //   let previousKey = undefined;
-  //   for (let thisNode of this) {
-  //     if (previousKey !== undefined && thisNode.key <= previousKey) {
-  //       return false;
-  //     }
-  //     previousKey = thisNode.key;
-  //   }
-  //   return true;
-  // }
-
   [Symbol.iterator]() {
 
     let thisNode = this.minNode; 
@@ -184,30 +210,32 @@ module.exports = class BinarySearchTree extends BinaryTree {
     return {
       next: () => {
         let result = {
-          value: {
+          done: thisNode.isNullTerminator(),
+        };
+
+        if (!result.done) {
+          visited.add(thisNode.key);
+
+          result.value = {
             key: thisNode.key,
             value: thisNode.value,
-          },
-          done: thisNode === maxNode,
-        };
-        visited.add(thisNode.key);
+          };
 
-        if (thisNode === maxNode) {
-          return result;
+          let nextNode;
+          if (thisNode === maxNode) {
+            nextNode = thisNode.right;
+          } else if (!thisNode.left.isNullTerminator() && !visited.has(thisNode.left.key)) {
+            nextNode = new BinarySearchTree(thisNode.left).minNode;
+          } else if (!thisNode.right.isNullTerminator() && !visited.has(thisNode.right.key)) {
+            nextNode = new BinarySearchTree(thisNode.right).minNode;
+          } else if (thisNode.parent) {
+            do {
+              thisNode = thisNode.parent;
+            } while(visited.has(thisNode.key));
+            nextNode = thisNode;
+          }
+          thisNode = nextNode;
         }
-
-        let nextNode;
-        if (!thisNode.left.isNullTerminator() && !visited.has(thisNode.left.key)) {
-          nextNode = new BinarySearchTree(thisNode.left).minNode;
-        } else if (!thisNode.right.isNullTerminator() && !visited.has(thisNode.right.key)) {
-          nextNode = new BinarySearchTree(thisNode.right).minNode;
-        } else if (thisNode.parent) {
-          do {
-            thisNode = thisNode.parent;
-          } while(visited.has(thisNode.key));
-          nextNode = thisNode;
-        }
-        thisNode = nextNode;
 
         return result; 
       },
